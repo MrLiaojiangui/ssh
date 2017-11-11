@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.lanou3g.crm"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--配置数据库属性-->
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Day13ssh?characterEncoding=UTF-8"/>
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--初始化SessionFactory对象-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--一直保持路径时正确的-->
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+
+    <!--员工-->
+    <bean id="staffDao" class="com.lanou3g.crm.staff.dao.impl.StaffDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="transactionManage"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:advice id="staffAdvisor" transaction-manager="transactionManage">
+        <tx:attributes>
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置切面-->
+    <aop:config>
+        <!--声明切点-->
+        <aop:pointcut id="staffPointCut"
+                      expression="execution(* com.lanou3g.crm.*.dao.impl.*.*(..))"/>
+        <aop:advisor advice-ref="staffAdvisor" pointcut-ref="staffPointCut"/>
+    </aop:config>
+</beans>

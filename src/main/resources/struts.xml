@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.objectFactory" value="spring"/>
+    <constant name="struts.devMode" value="true"/>
+
+    <!--<package name="staff" extends="json-default">-->
+
+        <!--<action name="addStaff" class="staffAction" method="addStaff">-->
+            <!--<result name="add">pages/staff/addStaff.jsp</result>-->
+            <!--<result name="input">/pages/login.jsp</result>-->
+        <!--</action>-->
+        <!--<action name="Staff_login" class="staffAction" method="login">-->
+            <!--<result name="success">/pages/frame.jsp</result>-->
+            <!--<result name="input">/pages/login.jsp</result>-->
+        <!--</action>-->
+    <!--</package>-->
+    <include file="struts/struts-dept.xml"/>
+    <include file="struts/struts-staff.xml"/>
+
+</struts>
