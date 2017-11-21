@@ -53,6 +53,7 @@
         <tr class="table1">
             <td align="center">${dept.depName}</td>
             <td width="7%" align="center">
+                <%--点击部门是将这两个值传过去,回显--%>
                 <a href="/dept/editDept.action?depId=${dept.depId}&depName=${dept.depName}">
 
                     <img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/>
@@ -74,9 +75,9 @@
         <td align="right">
             <span>第<%=offSet/5 + 1%> / <%=pageSize%>页</span>
             <span>
-        	   <a href="listByPage.action?offSet = 0">[首页]</a>&nbsp;&nbsp;
-               <a href="listByPage.action?offSet = <%=offSet-5%>">[上一页]</a>&nbsp;&nbsp;
-               <a href="listByPage.action?offSet = <%=offSet+5%>">[下一页]</a>&nbsp;&nbsp;
+        	   <a href="listByPage.action?offSet=0">[首页]</a>&nbsp;&nbsp;
+               <a href="listByPage.action?offSet=<%=offSet-5%>">[上一页]</a>&nbsp;&nbsp;
+               <a href="listByPage.action?offSet=<%=offSet+5%>">[下一页]</a>&nbsp;&nbsp;
                <a href="listByPage.action?offSet=<%=overPlus%>">[尾页]</a>
             </span>
         </td>

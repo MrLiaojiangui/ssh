@@ -13,6 +13,7 @@
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
         <property name="user" value="root"/>
         <property name="password" value="123456"/>
+
     </bean>
 
     <!--初始化SessionFactory对象-->
@@ -23,10 +24,7 @@
     </bean>
 
 
-    <!--员工-->
-    <bean id="staffDao" class="com.lanou3g.crm.staff.dao.impl.StaffDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+
 
     <bean id="transactionManage"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">

@@ -6,10 +6,28 @@
 
 <struts>
 
-    <package name="dept" extends="json-default">
+    <package name="dept" extends="base" namespace="/dept">
+        <!--添加部门-->
         <action name="addDept" class="departmentAction" method="addDepartment">
-            <result name="addDept">pages/department/listDepartment.jsp</result>
-            <result name="input">pages/department/addOrEditDepartment.jsp</result>
+            <result name="addDept">/pages/department/listDepartment.jsp</result>
+            <result name="input">/pages/department/addOrEditDepartment.jsp</result>
+            <result name="error">/pages/department/addOrEditDepartment.jsp</result>
         </action>
+
+        <!--查询所有部门-->
+        <!--<action name="query" class="departmentAction" method="query">-->
+            <!--<result name="success">/pages/department/listDepartment.jsp</result>-->
+        <!--</action>-->
+
+        <!--编辑部门-->
+        <action name="editDept" class="departmentAction">
+            <result name="success">/pages/department/addOrEditDepartment.jsp</result>
+        </action>
+        <!--分页-->
+        <action name="listByPage" class="departmentAction" method="page">
+            <result name="success">/pages/department/listDepartment.jsp</result>
+        </action>
+
+
     </package>
 </struts>

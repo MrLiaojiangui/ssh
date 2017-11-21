@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,15 +34,35 @@
     <td width="3%" align="right"><img src="${pageContext.request.contextPath}/images/tright.gif"/></td>
   </tr>
 </table>
+<%
+    if (request.getParameter("depName") != null){
+        String newDep = request.getParameter("depName");
+        String newDepName = new String(newDep.getBytes("iso-8859-1"),"utf-8");
+        request.setAttribute("editDepNameJsp",newDepName);
+    }
+
+%>
+
+<s:fielderror/>
+
+
 
 <form action="/dept/addDept.action" method="post">
 	<table width="88%" border="0" class="emp_table" style="width:80%;">
 	 <tr>
+
+
 	    <td>部门名称：</td>
-	    <td><input type="text" name="depName" value="教学部"/></td>
-	  </tr>
-	</table>
+	    <td>
+         <input type="text" name="depName" value="${editDepNameJsp}"/>
+         <input type="hidden" name="depId" value="${depId}"/></td>
+
+     </tr>
+
+    </table>
 </form>
+
+
 
 </body>
 </html>

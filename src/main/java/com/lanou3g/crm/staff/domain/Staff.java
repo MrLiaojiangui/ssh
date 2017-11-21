@@ -3,7 +3,7 @@ package com.lanou3g.crm.staff.domain;
 import com.lanou3g.crm.post.domain.Post;
 
 public class Staff {
-    private int staffId;
+    private String staffId;
     private String loginName;
     private String loginPwd;
     private String StaffName;
@@ -11,12 +11,14 @@ public class Staff {
     private String onDutyDate;
     private Post post;
 
+    public Staff() {
+    }
 
-    public int getStaffId() {
+    public String getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(int staffId) {
+    public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
 

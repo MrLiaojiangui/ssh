@@ -23,6 +23,7 @@
             <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-core/2.5.13/struts2-core-2.5.13.jar!/struts-default.xml</file>
             <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-json-plugin/2.5.13/struts2-json-plugin-2.5.13.jar!/struts-plugin.xml</file>
             <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-spring-plugin/2.5.13/struts2-spring-plugin-2.5.13.jar!/struts-plugin.xml</file>
+            <file>file://$MODULE_DIR$/src/main/resources/struts/struts-post.xml</file>
           </fileset>
           <propertiesKeys disabled="false" />
         </configuration>
@@ -33,6 +34,10 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/spring-config.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring/dept-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-dept.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-post.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-staff.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -40,7 +45,7 @@
       <configuration>
         <datasource-map>
           <unit-entry name="hibernate.cfg.xml" value="91db56de-9581-43ed-80fe-706d262c7266" />
-          <unit-entry name="sessionFactory" value="91db56de-9581-43ed-80fe-706d262c7266" />
+          <unit-entry name="sessionFactory" value="dataSource" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />

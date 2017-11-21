@@ -27,9 +27,9 @@
 		d.add('0104','01','就业部');
 		d.add('010401','0104','就业情况','${pageContext.request.contextPath}/pages/graduate/listGraduate.jsp','','right');
 		d.add('0105','01','人力资源部');
-		d.add('010501','0105','部门管理','${pageContext.request.contextPath}/pages/department/listDepartment.jsp','','right');
-		d.add('010502','0105','职务管理','${pageContext.request.contextPath}/pages/post/listPost.jsp','','right');
-		d.add('010503','0105','员工管理','${pageContext.request.contextPath}/pages/staff/listStaff.jsp','','right');
+		d.add('010501','0105','部门管理','${pageContext.request.contextPath}/dept/listByPage.action?offSet=0','','right');
+		d.add('010502','0105','职务管理','${pageContext.request.contextPath}/post/query.action','','right');
+		d.add('010503','0105','员工管理','${pageContext.request.contextPath}/staff/queryStaff.action','','right');
 		
 		document.write(d);
 	</script>

@@ -6,16 +6,36 @@ import com.lanou3g.crm.staff.domain.Staff;
 import java.util.Set;
 
 public class Post {
-    private int postId;
+    private String postId;
     private String postName;
     private Department department;
     private Set<Staff> staffs;
 
-    public int getPostId() {
+    public Post() {
+    }
+
+    public Post(String postId) {
+        this.postId = postId;
+    }
+
+    public Post(String postId, Department department) {
+        this.postId = postId;
+        this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postId=" + postId +
+                ", postName='" + postName + '\'' +
+                '}';
+    }
+
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(int postId) {
+    public void setPostId(String postId) {
         this.postId = postId;
     }
 

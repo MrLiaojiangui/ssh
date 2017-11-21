@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -7,7 +8,6 @@
 <title>无标题文档</title>
 
 <link href="${pageContext.request.contextPath}/css/sys.css" type="text/css" rel="stylesheet" />
-
 </head>
 
 <body >
@@ -24,7 +24,7 @@
    
     <td width="57%"align="right">
     	<%--添加职务 --%>
-       <a href="${pageContext.request.contextPath}/pages/post/addOrEditPost.jsp">
+       <a href="${pageContext.request.contextPath}/post/findDept.action">
        	<img src="${pageContext.request.contextPath}/images/button/tianjia.gif" />
        </a>
       
@@ -38,31 +38,35 @@
   </tr>
 </table>
 
-<table width="100%" border="1" >
-  
+<table width="100%" border="1">
   <tr class="henglan" style="font-weight:bold;">
     <td width="6%" align="center">部门名称</td>
     <td width="6%" align="center">职务名称</td>
     <td width="7%" align="center">编辑</td>
-  </tr>
-  
-  	<tr class="tabtd1">
-	    <td align="center">教学部 </td>
-	    <td align="center">总监 </td>
-	  	<td width="7%" align="center">
-	  		<a href="${pageContext.request.contextPath}/pages/post/addOrEditPost.jsp"><img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img" /></a>
-	  	</td>
-	  </tr>
-  
-  	<tr class="tabtd2">
-	    <td align="center">教学部 </td>
-	    <td align="center">讲师 </td>
-	  	<td width="7%" align="center">
-	  		<a href="${pageContext.request.contextPath}/pages/post/addOrEditPost.jsp"><img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img" /></a>
-	  	</td>
-	  </tr>
-</table>
 
+  </tr>
+    <%--<s:iterator value="posts" var="p">--%>
+
+        <%--<td align="center" >${p.postName}</td>--%>
+        <%--<td align="center">${p.department.depName}</td>--%>
+    <%--</s:iterator>--%>
+
+
+
+
+<s:iterator value="posts" var="p">
+     <tr class="tabtd1">
+         <td align="center">${p.department.depName} </td>
+         <td align="center">${p.postName}</td>
+         <td width="7%" align="center">
+             <a href="/post/findDept.action?department.depId=${p.department.depId}&postId=${p.postId}&postName=${p.postName}">
+
+                 <img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img" /></a >
+
+         </td>
+     </tr>
+ </s:iterator>
+</table>
 
 
 <table border="0" cellspacing="0" cellpadding="0" align="center">

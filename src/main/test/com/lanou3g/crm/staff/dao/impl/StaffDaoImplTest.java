@@ -39,6 +39,9 @@ public class StaffDaoImplTest {
         post.setDepartment(department);
         staffDao.save(staff);
     }
-
+    @Test
+    public void test(){
+        System.out.println(staffDao.getPostByDeptId("2c9090235fb7ef34015fb7f0b3990000"));
+    }
 
 }

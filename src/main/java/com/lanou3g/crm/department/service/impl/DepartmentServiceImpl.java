@@ -19,17 +19,22 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void addDept(Department department) {
-        departmentDao.addDept(department);
+        departmentDao.saveOrUpdate(department);
     }
 
     @Override
-    public List<Department> query(Department department) {
+    public List<Department> query() {
         return departmentDao.query();
     }
 
     @Override
-    public List<Department> saveOrQuery(Department department) {
-        return departmentDao.saveOrUpdate(department);
+    public void saveOrQuery(Department department) {
+        departmentDao.saveOrUpdate(department);
+    }
+
+    @Override
+    public List<Department> getListByPage(int offSet, int length) {
+        return departmentDao.getListByPage(offSet,length);
     }
 
     public void setDepartmentDao(DepartmentDao departmentDao) {

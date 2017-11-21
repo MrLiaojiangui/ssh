@@ -11,9 +11,23 @@ public class Department {
     private Set<Staff> staffs;
     private Set<Post> posts;
 
+    public Department() {
+    }
 
     public String getDepId() {
         return depId;
+    }
+
+    public Department(String depId) {
+        this.depId = depId;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "depId='" + depId + '\'' +
+                ", depName='" + depName + '\'' +
+                '}';
     }
 
     public void setDepId(String depId) {

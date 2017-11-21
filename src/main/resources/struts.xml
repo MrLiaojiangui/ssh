@@ -21,5 +21,24 @@
     <!--</package>-->
     <include file="struts/struts-dept.xml"/>
     <include file="struts/struts-staff.xml"/>
+    <include file="struts/struts-post.xml"/>
+    <package name="base" extends="json-default">
+        <interceptors>
+            <interceptor name="loginInterceptor" class="com.lanou3g.crm.staff.web.interceptor.LoginInterceptor">
+                <param name="excludeMethods">login</param>
+            </interceptor>
+            <interceptor-stack name="myInterceptor">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="loginInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="myInterceptor"/>
+
+        <global-results>
+            <result name="input">/pages/login.jsp</result>
+        </global-results>
+    </package>
+
 
 </struts>

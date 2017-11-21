@@ -7,6 +7,7 @@ import com.lanou3g.crm.post.domain.Post;
 import com.lanou3g.crm.staff.domain.Staff;
 import com.lanou3g.crm.staff.service.StaffService;
 import com.lanou3g.crm.staff.service.impl.StaffServiceImpl;
+import com.lanou3g.crm.utils.MD5Utils;
 import com.opensymphony.xwork2.ActionContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.validation.SkipValidation;
@@ -21,20 +22,18 @@ import java.util.List;
 /**
  * Created by dllo on 17/11/10.
  */
-@Controller("staffAction")
-@Scope("prototype")
-public class StaffAction extends BaseAction<Staff, StaffServiceImpl> {
-    @Resource
-    private StaffService staffService;
-    private Staff staff = getModel();
+
+public class StaffAction extends BaseAction<Staff, StaffService> {
+
+
+
     private List<Staff> staffs;
 
     private String depId;
-    
+
     @Resource
     private DepartmentService departmentService;
 
-    private Department department;
 
     private List<Department> allDept;
 
@@ -46,75 +45,114 @@ public class StaffAction extends BaseAction<Staff, StaffServiceImpl> {
     private String staffId;
     private Staff staffById;
 
-
-    //添加员工
-    public String addStaff() {
-        Staff staff = getModel();
-        staff.setPost(new Post(postId));
-        staffService.save(staff);
-        return SUCCESS;
-    }
-    //查询所有员工
-    public String queryStaff(){
-        //查出所有部门
-        allDept = departmentService.query();
-        //如果名字不为空,通过员工名字找员工
-        if (!StringUtils.isBlank(staff.getStaffName())){
-            staffs =  staffService.findAllStaffByStaffName(staff.getStaffName());
-        //如果职务不为空,通过职务ID找员工
-        }else if (!StringUtils.isBlank(postId)&&!postId.equals("-1")){
-            staffs =  staffService.findAllStaffByPostId(postId);
-        //通过部门ID查找员工
-        }else if (!StringUtils.isBlank(depId)&&!depId.equals("-1")){
-            postId =null;
-            staffs = staffService.getStaffByDeptId(depId);
-        }else {
-            postId = null;
-            depId = null;
-            staffs = staffService.queryStaff();
-        }
-
-        return SUCCESS;
-    }
-
-    //根据部门id查询对应的职位
-    public String getPostByDepId(){
-        posts = staffService.getPostByDeptId(depId);
-        return SUCCESS;
-    }
+    private String oldPassword;
+    private String newPassword;
+    private String reNewPassword;
 
 
+
+
+    //登录
     public String login() {
-        Staff staff1 = staffService.login(getModel());
+        Staff staff1 = service.login(getModel());
         if (staff1!= null){
             sessionPut("login",getModel().getLoginName());
             return SUCCESS;
         }
         addFieldError("msg","用户不存在");
         return INPUT;
-
     }
+
+    @SkipValidation
+    //重新登录
+    public String staffAction_logout(){
+        ActionContext.getContext().getSession().clear();
+        return INPUT;
+    }
+
+    // 修改密码
+    @SkipValidation
+    public String modifyPassword() {
+
+        if (!StringUtils.isBlank(reNewPassword) &&
+                !StringUtils.isBlank(newPassword)&&reNewPassword.equals(newPassword)) {
+            //查找出登陆的员工信息
+            Staff staff = service.findStaffByLoginName(ActionContext.getContext().getSession().
+                    get("login").toString());
+            //将员工密码更新保存
+            staff.setLoginPwd(MD5Utils.getMD5Value(newPassword));
+            service.saveOrUpdate(staff);
+            return SUCCESS;
+        } else {
+            addFieldError("msg", "请输入正确的密码");
+
+            return ERROR;
+        }
+    }
+
+    //添加员工
+    @SkipValidation
+    public String addStaff() {
+        //对添加员工的密码进行加密
+        Staff staff = getModel();
+        String md5Value = MD5Utils.getMD5Value(staff.getLoginPwd());
+        staff.setLoginPwd(md5Value);
+        staff.setPost(new Post(postId));
+        service.save(staff);
+        return SUCCESS;
+    }
+
+
+
+    //查询所有员工
+    @SkipValidation
+    public String queryStaff(){
+        //查出所有部门
+        allDept = departmentService.query();
+
+        staffs = service.queryStaff();
+
+        return SUCCESS;
+    }
+
+    //高级查询
+    @SkipValidation
+    public String findAllStaffs(){
+        staffs = service.getAllResult(getModel());
+        return SUCCESS;
+    }
+
+    //根据部门id查询对应的职位
+    @SkipValidation
+    public String getPostByDepId(){
+        posts = service.getPostByDeptId(depId);
+        return SUCCESS;
+    }
+
     //查询所有部门
 
+    @SkipValidation
     public String findAllDept(){
         allDept = departmentService.query();
         System.out.println("部门:" + allDept);
         return SUCCESS;
     }
-    //编辑员工
 
+    //编辑员工
+    @SkipValidation
     public String edieStaff(){
         Staff staff = getModel();
         staff.setPost(new Post(postId, new Department(depId)));
-        staffService.saveOrUpdate(staff);
+        service.saveOrUpdate(staff);
         return SUCCESS;
     }
 
-    //编辑员工是查出一个员工的所有信息
+    //编辑员工时查出一个员工的所有信息
 
+    @SkipValidation
     public String editStaffPre(){
         allDept = departmentService.query();
-        staffById = staffService.findStaffById(getModel().getStaffId());
+        staffById = service.findStaffById(getModel().getStaffId());
         ActionContext.getContext().put("setDeptId",staffById.getPost().getDepartment().getDepId());
         ActionContext.getContext().getSession().put("setPostId",staffById.getPost().getPostId());
         ActionContext.getContext().getSession().put("setPostName",staffById.getPost().getPostName());
@@ -127,10 +165,6 @@ public class StaffAction extends BaseAction<Staff, StaffServiceImpl> {
         return staffs;
     }
 
-    public Staff getStaff() {
-        return staff;
-    }
-
     public DepartmentService getDepartmentService() {
         return departmentService;
     }
@@ -139,13 +173,7 @@ public class StaffAction extends BaseAction<Staff, StaffServiceImpl> {
         this.departmentService = departmentService;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
 
     public List<Department> getAllDept() {
         return allDept;
@@ -193,5 +221,30 @@ public class StaffAction extends BaseAction<Staff, StaffServiceImpl> {
 
     public void setStaffById(Staff staffById) {
         this.staffById = staffById;
+    }
+
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getReNewPassword() {
+        return reNewPassword;
+    }
+
+    public void setReNewPassword(String reNewPassword) {
+        this.reNewPassword = reNewPassword;
     }
 }

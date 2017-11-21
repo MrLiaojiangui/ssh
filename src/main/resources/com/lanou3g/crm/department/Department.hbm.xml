@@ -10,7 +10,7 @@
         </id>
         <property name="depName"/>
         <!--设置部门对职位一对多-->
-        <set name="posts" table="T_POST" cascade="save-update" inverse="true">
+        <set name="posts" table="T_POST" inverse="true">
             <key column="DEPT_ID"/>
             <one-to-many class="com.lanou3g.crm.post.domain.Post"/>
         </set>

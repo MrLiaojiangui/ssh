@@ -9,7 +9,12 @@ import java.util.List;
  * Created by dllo on 17/11/11.
  */
 public interface DepartmentService {
+
     void addDept(Department department);
-    List<Department> query(Department department);
-    List<Department> saveOrQuery(Department department);
+
+    List<Department> query();
+
+    void saveOrQuery(Department department);
+
+    List<Department> getListByPage(int offSet,int length);
 }

@@ -6,15 +6,15 @@
     <!--是指职位表-->
     <class name="com.lanou3g.crm.post.domain.Post" table="T_POST">
         <id name="postId" column="POST_ID">
-            <generator class="native"/>
+            <generator class="uuid"/>
         </id>
         <property name="postName"/>
         <!--职位对部门是多对一-->
         <many-to-one name="department"
                      class="com.lanou3g.crm.department.domain.Department"
-                     column="DEPT_ID" cascade="save-update"/>
+                     column="DEPT_ID" lazy="false"/>
         <!--职位对员工是多对一-->
-        <set name="staffs" table="T_STAFF" cascade="save-update" inverse="true">
+        <set name="staffs" table="T_STAFF">
             <key column="POST_ID"></key>
             <one-to-many class="com.lanou3g.crm.staff.domain.Staff"/>
         </set>

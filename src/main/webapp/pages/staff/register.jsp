@@ -68,7 +68,6 @@
                     出生日期：<input class="msg" type="text"><br/><br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input class="btn" type="submit" value=" 注册 "/>
-
                     <input class="btn" type="button" value=" 取消 "
                            onclick="document.location='${pageContext.request.contextPath}'"/>
 
